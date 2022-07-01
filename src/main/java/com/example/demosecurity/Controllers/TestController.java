@@ -1,5 +1,6 @@
 package com.example.demosecurity.Controllers;
 
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,21 +17,21 @@ public class TestController {
     }
 
     @GetMapping("/user")
-    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_MODERATOR') or hasRole('ROLE_ADMIN')")
+    @Secured({ "ROLE_USER", "ROLE_MODERATOR" , "ROLE_ADMIN" })
     public String userAccess() {
         return "Users Content.";
     }
 
-    @GetMapping(    "/mod")
-    @PreAuthorize("hasRole('MODERATOR')")
+    @GetMapping( "/mod")
+    @Secured("ROLE_MODERATOR")
     public String moderatorAccess() {
         return "Moderator Board.";
     }
 
     @GetMapping("/admin")
-    @PreAuthorize("hasRole('ADMIN')")
+    @Secured("ROLE_ADMIN")
     public String adminAccess() {
         return "Admin Board.";
     }
-
 }
